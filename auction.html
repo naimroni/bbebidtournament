@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Dashboard - Auction System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .manager-select {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            width: 180px;
+            border-radius: 6px;
+            margin-right: 10px;
+            background: #2c2c2c;
+            color: #ffffff;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+
+        .manager-select:hover {
+            border-color: #666;
+        }
+
+        #bidAmount {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            width: 150px;
+            border-radius: 6px;
+            margin-right: 10px;
+            background: #2c2c2c;
+            color: #ffffff;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+
+        #bidAmount:focus {
+            border-color: #00bf63;
+            outline: none;
+        }
+
+        .bidding-section .submit-btn {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            background: linear-gradient(145deg, #00bf63, #00a152);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .bidding-section .submit-btn:hover {
+            background: linear-gradient(145deg, #00d670, #00bf63);
+            transform: translateY(-2px);
+        }
+
+        .bidding-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .sold-btn, .unsold-btn {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .sold-btn {
+            background: linear-gradient(145deg, #00bf63, #00a152);
+            color: #ffffff;
+        }
+
+        .unsold-btn {
+            background: linear-gradient(145deg, #ff9800, #f57c00);
+            color: #ffffff;
+        }
+
+        .sold-btn:hover {
+            background: linear-gradient(145deg, #00d670, #00bf63);
+            transform: translateY(-2px);
+        }
+
+        .unsold-btn:hover {
+            background: linear-gradient(145deg, #ffa726, #ff9800);
+            transform: translateY(-2px);
+        }
+
+        .sold-btn:disabled, .unsold-btn:disabled {
+            background: linear-gradient(145deg, #4a4a4a, #3d3d3d);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auction-dashboard {
+            background: #121212;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #2c2c2c;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .registered-section {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #2c2c2c;
+            max-height: 600px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .auction-main {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #2c2c2c;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .auction-controls {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .timer {
+            font-size: 28px;
+            color: #00bf63;
+            text-align: center;
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(0, 191, 99, 0.3);
+        }
+
+        h2, h3 {
+            color: #00bf63;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 191, 99, 0.2);
+        }
+
+        .players-list, .managers-list {
+            margin-bottom: 25px;
+        }
+
+        .player-info, .manager-info {
+            background: #212121;
+            padding: 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #2c2c2c;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .player-info:hover, .manager-info:hover {
+            transform: translateX(5px);
+            border-color: #444;
+        }
+
+        .player-info p, .manager-info p {
+            margin: 8px 0;
+            color: #e0e0e0;
+        }
+
+        .no-data {
+            color: #ff4d4d;
+            text-align: center;
+            padding: 15px;
+            font-style: italic;
+            background: #1a1a1a;
+            border-radius: 8px;
+        }
+
+        .bidding-history {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #2c2c2c;
+            height: 600px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .bid-item {
+            background: #212121;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #2c2c2c;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .bid-item:hover {
+            transform: translateX(5px);
+            border-color: #444;
+        }
+
+        .download-section {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .download-btn {
+            background: linear-gradient(145deg, #2196F3, #1976D2);
+            color: #ffffff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(145deg, #42a5f5, #2196F3);
+            transform: translateY(-2px);
+        }
+
+        .current-player {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        #currentPlayer {
+            text-align: center;
+            font-size: 28px;
+            margin: 25px 0;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2c2c2c;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="index.html">Home</a>
+            <a href="player.html">Player Registration</a>
+            <a href="manager.html">Manager Registration</a>
+            <a href="auction.html">Start Auction</a>
+        </nav>
+
+        <div class="auction-dashboard">
+            <div class="dashboard-header">
+                <h2>AUCTION DASHBOARD</h2>
+                <div id="startSection">
+                    <div id="checkStatus"></div>
+                    <div class="auction-controls">
+                        <button onclick="startAuction()" id="startAuctionBtn">Start Auction</button>
+                        <button onclick="showNextPlayer()" id="nextPlayerBtn" disabled>Next Player</button>
+                        <button onclick="downloadPurchaseReport()" class="download-btn">Download Purchase Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="registered-section">
+                    <h2>Registered Managers</h2>
+                    <div id="managersList" class="managers-list"></div>
+                </div>
+                <div class="auction-main">
+                    <div id="currentPlayer"></div>
+                    <div class="bidding-section">
+                        <select id="bidderName" class="manager-select">
+                            <option value="">Select Manager</option>
+                        </select>
+                        <input type="number" id="bidAmount" placeholder="Enter bid amount">
+                        <button onclick="placeBid()" class="submit-btn">Place Bid</button>
+                        <button onclick="markAsSold()" class="sold-btn" id="soldButton">SOLD</button>
+                        <button onclick="markAsUnsold()" class="unsold-btn" id="unsoldButton">UNSOLD</button>
+                    </div>
+                    <div class="timer" id="timer">30</div>
+                </div>
+                <div class="bidding-history">
+                    <h2>Bidding History</h2>
+                    <div id="biddingHistory"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

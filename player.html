@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Registration - Auction System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #111111;
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333333;
+        }
+
+        .registration-section h2,
+        .display-section h3 {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .form-container {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            color: #4CAF50;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #333333;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .form-group input::placeholder {
+            color: #666666;
+        }
+
+        .submit-btn {
+            background: #4CAF50;
+            color: #000000;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background: #45a049;
+            color: #000000;
+        }
+
+        .players-list {
+            margin-top: 20px;
+        }
+
+        .player-item {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #333333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-info {
+            margin-right: 20px;
+        }
+
+        .player-info p {
+            color: #ffffff;
+            margin: 5px 0;
+        }
+
+        .player-info p strong {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .no-data {
+            color: #b3b3b3;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .navigation {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333333;
+        }
+
+        .navigation a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin-right: 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .navigation a:hover {
+            background: #1a1a1a;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="index.html">Home</a>
+            <a href="manager.html">Manager Registration</a>
+            <a href="auction.html">Start Auction</a>
+        </nav>
+
+        <div class="registration-section">
+            <h2>PLAYER REGISTRATION</h2>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="playerName">Player Name:</label>
+                    <input type="text" id="playerName" placeholder="Enter player name" required>
+                </div>
+                <div class="form-group">
+                    <label for="basePrice">Base Price (৳):</label>
+                    <input type="number" id="basePrice" placeholder="Enter base price" required>
+                </div>
+                <button onclick="addPlayer()" class="submit-btn">Add Player</button>
+            </div>
+        </div>
+
+        <div class="display-section">
+            <h3>REGISTERED PLAYERS</h3>
+            <div id="playersList" class="players-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize players array
+        let players = JSON.parse(localStorage.getItem('players') || '[]');
+
+        // Load and display existing players when the page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            updatePlayersList();
+        });
+
+        // Add event listeners for form submission
+        document.getElementById('playerName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('basePrice').focus();
+            }
+        });
+
+        document.getElementById('basePrice').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addPlayer();
+            }
+        });
+
+        // Function to add a new player
+        function addPlayer() {
+            const nameInput = document.getElementById('playerName');
+            const priceInput = document.getElementById('basePrice');
+            
+            const name = nameInput.value.trim();
+            const basePrice = priceInput.value;
+            
+            if (!name || !basePrice) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const player = {
+                name: name,
+                basePrice: parseInt(basePrice),
+                soldTo: null,
+                soldAmount: 0
+            };
+            
+            // Add new player to array
+            players.push(player);
+            
+            // Save to localStorage
+            localStorage.setItem('players', JSON.stringify(players));
+            
+            // Update display
+            updatePlayersList();
+            
+            // Clear form
+            nameInput.value = '';
+            priceInput.value = '';
+            nameInput.focus();
+        }
+
+        // Function to update players list display
+        function updatePlayersList() {
+            const playersList = document.getElementById('playersList');
+            playersList.innerHTML = '';
+            
+            if (players.length === 0) {
+                playersList.innerHTML = '<p class="no-data">No players registered yet</p>';
+                return;
+            }
+            
+            players.forEach((player, index) => {
+                const div = document.createElement('div');
+                div.className = 'player-item';
+                div.innerHTML = `
+                    <div class="player-info">
+                        <p><strong>${player.name}</strong></p>
+                        <p>Base Price: ৳${player.basePrice}</p>
+                        ${player.soldTo ? `<p>Sold to: ${player.soldTo} for ৳${player.soldAmount}</p>` : ''}
+                    </div>
+                    <button onclick="removePlayer(${index})" class="remove-btn">Remove</button>
+                `;
+                playersList.appendChild(div);
+            });
+        }
+
+        // Function to remove a player
+        function removePlayer(index) {
+            players.splice(index, 1);
+            localStorage.setItem('players', JSON.stringify(players));
+            updatePlayersList();
+        }
+    </script>
+</body>
+</html>
