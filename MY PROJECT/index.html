@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Auction System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .welcome-section {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid #333333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-section h1 {
+            color: #ffffff;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-section p {
+            color: #b3b3b3;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #333333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            border-color: #444444;
+        }
+
+        .feature-card h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            text-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .feature-card p {
+            color: #b3b3b3;
+            line-height: 1.5;
+            font-size: 1.1em;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-players {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .btn-players:hover {
+            background: linear-gradient(135deg, #45a049, #388e3c);
+        }
+
+        .btn-managers {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .btn-managers:hover {
+            background: linear-gradient(135deg, #1976D2, #1565C0);
+            color: #000000;
+        }
+
+        .btn-auction {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+        }
+
+        .btn-auction:hover {
+            background: linear-gradient(135deg, #f57c00, #ef6c00);
+        }
+
+        /* Dark theme specific navigation */
+        .navigation {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #333333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .navigation a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin-right: 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .navigation a:hover {
+            background: #2d2d2d;
+            color: #007bff;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="player.html">Player Registration</a>
+            <a href="manager.html">Manager Registration</a>
+            <a href="auction.html">Start Auction</a>
+        </nav>
+
+        <div class="welcome-section">
+            <h1>WELCOME TO PLAYER AUCTION SYSTEM</h1>
+            <p>A modern platform for managing player auctions with real-time bidding and comprehensive tracking.</p>
+            
+            <div class="action-buttons">
+                <a href="player.html" class="action-button btn-players">Register Players</a>
+                <a href="manager.html" class="action-button btn-managers">Register Managers</a>
+                <a href="auction.html" class="action-button btn-auction">Start Auction</a>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>PLAYER REGISTRATION</h3>
+                <p>Easily register players with their details and base prices for the auction.</p>
+            </div>
+            <div class="feature-card">
+                <h3>MANAGER REGISTRATION</h3>
+                <p>Register team managers with their budgets and track their purchases.</p>
+            </div>
+            <div class="feature-card">
+                <h3>LIVE AUCTION</h3>
+                <p>Conduct real-time auctions with automatic timer and bidding history.</p>
+            </div>
+            <div class="feature-card">
+                <h3>RESULTS TRACKING</h3>
+                <p>Keep track of all transactions and final player assignments.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

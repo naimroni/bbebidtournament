@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Registration - Auction System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-section {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1e3c72;
+        }
+
+        .form-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+        }
+
+        .form-group input::placeholder {
+            color: #666666;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: #000000;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background: #2196F3;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #1976D2;
+            color: #000000;
+        }
+
+        .managers-list {
+            margin-top: 30px;
+        }
+
+        .manager-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a1a1a;
+            border: 1px solid #333333;
+        }
+
+        .manager-info p {
+            color: #ffffff;
+        }
+
+        .manager-info p strong {
+            color: #2196F3;
+        }
+
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .no-data {
+            color: #b3b3b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="index.html">Home</a>
+            <a href="player.html">Player Registration</a>
+            <a href="auction.html">Start Auction</a>
+        </nav>
+
+        <div class="registration-section">
+            <h2>MANAGER REGISTRATION</h2>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="managerName">Manager Name:</label>
+                    <input type="text" id="managerName" placeholder="Enter manager name" required>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Budget (৳):</label>
+                    <input type="number" id="budget" placeholder="Enter budget amount" required>
+                </div>
+                <button onclick="addManager()" class="submit-btn">Add Manager</button>
+            </div>
+        </div>
+
+        <div class="display-section">
+            <h3>REGISTERED MANAGERS</h3>
+            <div id="managersList" class="managers-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize managers array
+        let managers = [];
+        
+        // Load managers when page loads
+        function loadManagers() {
+            const storedManagers = localStorage.getItem('managers');
+            if (storedManagers) {
+                try {
+                    managers = JSON.parse(storedManagers);
+                    console.log('Managers loaded:', managers);
+                } catch (error) {
+                    console.error('Error parsing managers:', error);
+                    managers = [];
+                }
+            }
+            updateManagersList();
+        }
+
+        // Save managers to localStorage
+        function saveManagers() {
+            try {
+                localStorage.setItem('managers', JSON.stringify(managers));
+                console.log('Managers saved:', managers);
+            } catch (error) {
+                console.error('Error saving managers:', error);
+                alert('Error saving data. Please try again.');
+            }
+        }
+
+        // Add new manager
+        function addManager() {
+            const nameInput = document.getElementById('managerName');
+            const budgetInput = document.getElementById('budget');
+            
+            const name = nameInput.value.trim();
+            const budget = parseInt(budgetInput.value);
+            
+            if (!name || !budget) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create new manager object
+            const manager = {
+                name: name,
+                budget: budget,
+                purchasedPlayers: []  // Initialize empty array for purchased players
+            };
+            
+            // Add to managers array
+            managers.push(manager);
+            
+            // Save to localStorage
+            saveManagers();
+            
+            // Update display
+            updateManagersList();
+            
+            // Clear form
+            nameInput.value = '';
+            budgetInput.value = '';
+            nameInput.focus();
+        }
+
+        // Update managers list display
+        function updateManagersList() {
+            const managersList = document.getElementById('managersList');
+            managersList.innerHTML = '';
+            
+            if (!managers || managers.length === 0) {
+                managersList.innerHTML = '<p class="no-data">No managers registered yet</p>';
+                return;
+            }
+            
+            managers.forEach((manager, index) => {
+                const div = document.createElement('div');
+                div.className = 'manager-item';
+                div.innerHTML = `
+                    <div class="manager-info">
+                        <p><strong>${manager.name}</strong></p>
+                        <p>Budget: ৳${manager.budget}</p>
+                    </div>
+                    <button onclick="removeManager(${index})" class="remove-btn">Remove</button>
+                `;
+                managersList.appendChild(div);
+            });
+        }
+
+        // Remove manager
+        function removeManager(index) {
+            managers.splice(index, 1);
+            saveManagers();
+            updateManagersList();
+        }
+
+        // Add event listeners
+        document.getElementById('managerName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('budget').focus();
+            }
+        });
+
+        document.getElementById('budget').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addManager();
+            }
+        });
+
+        // Load managers when page loads
+        window.addEventListener('DOMContentLoaded', loadManagers);
+    </script>
+</body>
+</html>
