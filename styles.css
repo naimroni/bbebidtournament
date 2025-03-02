@@ -958,3 +958,59 @@ tr:hover {
 .no-data { 
     color: #b3b3b3; 
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 8px;
+    }
+
+    .auction-dashboard {
+        padding: 12px;
+        margin: 8px 0;
+    }
+
+    .registered-section {
+        padding: 12px;
+        max-height: 400px;
+    }
+
+    .auction-main {
+        padding: 12px;
+    }
+
+    .player-info, .manager-info {
+        padding: 10px;
+        margin: 6px 0;
+        font-size: 0.9em;
+    }
+
+    .bidding-history {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    h2 {
+        font-size: 1.4em;
+        margin-bottom: 12px;
+    }
+
+    h3 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    .timer {
+        font-size: 24px;
+        margin: 10px 0;
+    }
+
+    #currentPlayer {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    #highestBidder {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+}
