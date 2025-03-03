@@ -1013,7 +1013,7 @@ tr:hover {
 }
 
 .start-auction-btn {
-    background: linear-gradient(145deg, #ff9800, #f57c00) !important;
+    background: linear-gradient(145deg, #f8a902, #f3696e) !important;
     color: #ffffff;
     padding: 8px 15px;
     font-size: 0.9em;
@@ -1025,13 +1025,13 @@ tr:hover {
 }
 
 .start-auction-btn:hover {
-    background: linear-gradient(145deg, #ffa726, #ff9800) !important;
+    background: linear-gradient(145deg, #f3696e, #f8a902) !important;
     transform: translateY(-2px);
 }
 
 .next-player-btn {
-    background: linear-gradient(145deg, #4CAF50, #45a049) !important;
-    color: #ffffff;
+    background: linear-gradient(145deg, #6ef16e, #1ed81e) !important;
+    color: #000000;
     padding: 8px 15px;
     font-size: 0.9em;
     border: none;
@@ -1042,6 +1042,6 @@ tr:hover {
 }
 
 .next-player-btn:hover {
-    background: linear-gradient(145deg, #5cb860, #4CAF50) !important;
+    background: linear-gradient(145deg, #1ed81e, #6ef16e) !important;
     transform: translateY(-2px);
 }
