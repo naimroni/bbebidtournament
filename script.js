@@ -142,12 +142,28 @@ function removeManager(index) {
     updateManagersList();
 }
 
+// Shuffle array function
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 // Start auction
 function startAuction() {
     if (players.length === 0 || managers.length === 0) {
         alert('Please register at least one player and one manager before starting the auction');
         return;
     }
+
+    // Create a copy of players array and shuffle it
+    let unsoldPlayers = players.filter(player => !player.sold);
+    unsoldPlayers = shuffleArray(unsoldPlayers);
+    
+    // Replace the original players array with shuffled one
+    players = [...unsoldPlayers, ...players.filter(player => player.sold)];
 
     isAuctionStarted = true;
     currentPlayerIndex = -1;
@@ -562,7 +578,6 @@ function downloadPurchaseReport() {
                         // Draw header in new page
                         doc.setFillColor(46, 139, 87); // Sea green header
                         doc.rect(20, y, 170, 10, 'F');
-                        doc.setFont(undefined, 'bold');
                         doc.setTextColor(255, 255, 255); // White text
                         doc.text('Manager Name', 25, y + 7);
                         doc.text('Player Name', 95, y + 7);
