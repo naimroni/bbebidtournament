@@ -6,13 +6,42 @@
     <title>Manager Registration - Auction System</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #111111;
+        }
+        
         .container {
             max-width: 800px;
-            margin: 40px auto;
+            margin: 20px auto;
             padding: 20px;
-            background: white;
+            background: #000000;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333333;
+        }
+
+        .navigation a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin-right: 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .navigation a:hover {
+            background: #1a1a1a;
+            color: #2196F3;
         }
 
         .registration-section {
@@ -116,6 +145,64 @@
 
         .no-data {
             color: #b3b3b3;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .navigation {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .navigation a {
+                margin: 0;
+                display: block;
+            }
+
+            .form-group input {
+                font-size: 16px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .manager-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .manager-info {
+                margin-right: 0;
+            }
+
+            .remove-btn {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .registration-section h2,
+            .display-section h3 {
+                font-size: 1.5em;
+            }
+
+            .form-container {
+                padding: 15px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
         }
     </style>
 </head>

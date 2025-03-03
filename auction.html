@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #111111;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
         .manager-select {
             padding: 8px 15px;
             font-size: 0.9em;
@@ -281,6 +293,88 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #444;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .registered-section {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .registered-section {
+                grid-column: span 1;
+            }
+
+            .navigation {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navigation a {
+                margin: 0;
+                text-align: center;
+            }
+
+            .bidding-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .manager-select,
+            #bidAmount {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .submit-btn,
+            .sold-btn,
+            .unsold-btn {
+                width: 100%;
+                margin-left: 0;
+                padding: 12px;
+            }
+
+            .auction-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.3em;
+            }
+
+            .timer {
+                font-size: 24px;
+            }
+
+            .player-info,
+            .manager-info {
+                padding: 12px;
+            }
         }
     </style>
 </head>

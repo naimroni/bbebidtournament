@@ -158,27 +158,32 @@ function startAuction() {
         return;
     }
 
-    // Create a copy of players array and shuffle it
-    let unsoldPlayers = players.filter(player => !player.sold);
-    unsoldPlayers = shuffleArray(unsoldPlayers);
-    
-    // Replace the original players array with shuffled one
-    players = [...unsoldPlayers, ...players.filter(player => player.sold)];
-
+    // Reset auction state
     isAuctionStarted = true;
     currentPlayerIndex = -1;
     document.getElementById('nextPlayerBtn').disabled = false;
     document.getElementById('soldButton').style.display = 'none';
     document.getElementById('unsoldButton').style.display = 'none';
+
+    // Get all unsold players and shuffle them
+    let unsoldPlayers = players.filter(player => !player.sold);
+    
+    // Double shuffle for more randomness
+    unsoldPlayers = shuffleArray(unsoldPlayers);
+    unsoldPlayers = shuffleArray(unsoldPlayers);
+    
+    // Replace the players array with shuffled unsold players first, then sold players
+    players = [...unsoldPlayers, ...players.filter(player => player.sold)];
+    
     showNextPlayer();
 }
 
 // Show next player
 function showNextPlayer() {
-    currentPlayerIndex++;
-    biddingHistory = [];
+    // Get all unsold players
+    let unsoldPlayers = players.filter(player => !player.sold);
     
-    if (currentPlayerIndex >= players.length) {
+    if (unsoldPlayers.length === 0) {
         if (timer) {
             clearInterval(timer);
         }
@@ -190,7 +195,14 @@ function showNextPlayer() {
         return;
     }
     
-    const player = players[currentPlayerIndex];
+    // Randomly select a player from unsold players
+    const randomIndex = Math.floor(Math.random() * unsoldPlayers.length);
+    const player = unsoldPlayers[randomIndex];
+    
+    // Find this player's index in the main players array
+    currentPlayerIndex = players.findIndex(p => p.name === player.name);
+    
+    biddingHistory = [];
     currentBid = player.basePrice;
     currentHighestBidder = null;
     
