@@ -5,7 +5,6 @@ let currentPlayerIndex = -1;
 let currentBid = 0;
 let currentHighestBidder = null;
 let timer;
-let biddingHistory = [];
 let isAuctionStarted = false;
 
 // Load data from localStorage
@@ -202,7 +201,7 @@ function showNextPlayer() {
     // Find this player's index in the main players array
     currentPlayerIndex = players.findIndex(p => p.name === player.name);
     
-    biddingHistory = [];
+    let biddingHistory = [];
     currentBid = player.basePrice;
     currentHighestBidder = null;
     
@@ -275,6 +274,7 @@ function placeBid() {
     unsoldButton.style.display = 'inline-block';
 
     // Add to bidding history
+    let biddingHistory = [];
     biddingHistory.push({
         manager: bidderName,
         amount: bidAmount,
@@ -295,6 +295,7 @@ function updateBiddingHistory() {
     // Keep the heading
     historyDiv.innerHTML = '<h3>BIDDING HISTORY</h3>';
     
+    let biddingHistory = [];
     if (biddingHistory.length === 0) {
         historyDiv.innerHTML += '<p class="no-data">No bids yet</p>';
         return;
