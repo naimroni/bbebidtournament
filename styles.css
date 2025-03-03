@@ -7,7 +7,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: #000000;
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -32,7 +32,7 @@ body.fade-out {
     border: none;
     border-radius: 15px;
     transition: all 0.3s ease-in-out;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(0, 0, 0);
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
@@ -60,13 +60,12 @@ input {
 
 input:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color: #49cc4d;
     box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
 button {
     padding: 12px 24px;
-    background: linear-gradient(45deg, #4CAF50, #45a049);
     color: white;
     border: none;
     border-radius: 8px;
@@ -75,20 +74,16 @@ button {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-    background: linear-gradient(45deg, #45a049, #4CAF50);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-}
-
-button:active {
-    transform: translateY(0);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 button:disabled {
-    background: linear-gradient(45deg, #cccccc, #999999);
+    background: linear-gradient(45deg, #333333, #222222);
     cursor: not-allowed;
 }
 
@@ -249,8 +244,8 @@ button:disabled {
     padding: 15px 35px;
     border-radius: 10px;
     font-size: 1.1em;
-    background: linear-gradient(45deg, #4CAF50, #45a049);
-    color: white;
+    background: linear-gradient(145deg, #f141c5f1, #f141c5f1);
+    color: black;
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -437,21 +432,21 @@ tr:hover {
 }
 
 .sold-btn {
-    background: #4CAF50;
-    color: #ffffff;
+    background: linear-gradient(145deg, #ff0000, #cc0000) !important;
+    color: white;
 }
 
 .unsold-btn {
-    background: #ff9800;
-    color: #000000;
+    background: linear-gradient(145deg, #f72585, #b5179e);
+    color: white;
 }
 
 .sold-btn:hover {
-    background: #45a049;
+    background: linear-gradient(145deg, #cc0000, #ff0000) !important;
 }
 
 .unsold-btn:hover {
-    background: #f57c00;
+    background: linear-gradient(145deg, #b5179e, #f72585);
 }
 
 .timer {
@@ -617,10 +612,11 @@ tr:hover {
 
 /* Dashboard styles */
 .auction-dashboard {
-    background: #2d2d2d;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #404040;
+    background: #000000;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #1a1a1a;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .dashboard-header {
@@ -634,20 +630,21 @@ tr:hover {
 }
 
 .registered-section {
-    background: #383838;
+    background: #000000;
     padding: 15px;
     border-radius: 8px;
+    border: 1px solid #1a1a1a;
 }
 
 .auction-main {
-    background: #383838;
+    background: #000000;
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #404040;
 }
 
 .current-player {
-    background: #383838;
+    background: #000000;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 15px;
@@ -957,4 +954,94 @@ tr:hover {
 
 .no-data { 
     color: #b3b3b3; 
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 8px;
+    }
+
+    .auction-dashboard {
+        padding: 12px;
+        margin: 8px 0;
+    }
+
+    .registered-section {
+        padding: 12px;
+        max-height: 400px;
+    }
+
+    .auction-main {
+        padding: 12px;
+    }
+
+    .player-info, .manager-info {
+        padding: 10px;
+        margin: 6px 0;
+        font-size: 0.9em;
+    }
+
+    .bidding-history {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    h2 {
+        font-size: 1.4em;
+        margin-bottom: 12px;
+    }
+
+    h3 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    .timer {
+        font-size: 24px;
+        margin: 10px 0;
+    }
+
+    #currentPlayer {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    #highestBidder {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+}
+
+.start-auction-btn {
+    background: linear-gradient(145deg, #ff9800, #f57c00) !important;
+    color: #ffffff;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.start-auction-btn:hover {
+    background: linear-gradient(145deg, #ffa726, #ff9800) !important;
+    transform: translateY(-2px);
+}
+
+.next-player-btn {
+    background: linear-gradient(145deg, #4CAF50, #45a049) !important;
+    color: #ffffff;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.next-player-btn:hover {
+    background: linear-gradient(145deg, #5cb860, #4CAF50) !important;
+    transform: translateY(-2px);
 }
