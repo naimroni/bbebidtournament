@@ -1281,3 +1281,46 @@ select:focus,
         touch-action: manipulation !important;
     }
 }
+
+/* Prevent mobile select blinking */
+.select-wrapper,
+.manager-select,
+.bidding-section {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+.select-wrapper *,
+.manager-select *,
+.bidding-section * {
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Remove focus outlines */
+.select-wrapper:focus,
+.manager-select:focus,
+.bidding-section:focus {
+    outline: none !important;
+}
+
+/* Remove default select styling */
+.manager-select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    text-indent: 1px !important;
+    text-overflow: '' !important;
+}
+
+/* Remove default focus ring on mobile */
+@media (max-width: 768px) {
+    .select-wrapper,
+    .manager-select,
+    .bidding-section {
+        outline: none !important;
+        -webkit-highlight: none !important;
+        -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    }
+}

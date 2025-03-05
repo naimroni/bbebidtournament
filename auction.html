@@ -27,34 +27,64 @@
             padding: 20px;
         }
 
-        .manager-select {
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        .bidding-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
             -webkit-touch-callout: none;
-            -webkit-appearance: none;
-            appearance: none;
-            background: #000000;
-            color: #ffffff;
-            border: 1px solid #444;
-            padding: 8px 15px;
-            border-radius: 6px;
-            width: 180px;
-            font-size: 0.9em;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 10px;
-            padding-right: 25px;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
-        .manager-select:hover {
+        .select-wrapper {
+            position: relative;
+            width: 180px;
+            background: #000000;
+            border-radius: 6px;
+            border: 1px solid #444;
+        }
+
+        .manager-select {
+            width: 100%;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            color: #ffffff;
+            background: transparent;
+            border: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #ffffff;
+            pointer-events: none;
+        }
+
+        .select-wrapper:hover {
             border-color: #666;
         }
 
-        .manager-select:focus {
+        .select-wrapper:active,
+        .select-wrapper:focus-within {
             border-color: #00bf63;
-            outline: none;
         }
 
         #bidAmount {
@@ -89,18 +119,6 @@
         .bidding-section .submit-btn:hover {
             background: linear-gradient(145deg, #00d670, #00bf63);
             transform: translateY(-2px);
-        }
-
-        .bidding-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .sold-btn, .unsold-btn {
@@ -314,32 +332,25 @@
             .bidding-section {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 12px;
+                padding: 12px;
+            }
+
+            .select-wrapper {
+                width: 100%;
+                margin-bottom: 10px;
             }
 
             .manager-select {
                 width: 100%;
-                margin: 0;
-                padding: 12px;
+                padding: 12px 15px;
                 font-size: 16px;
-                border: 1px solid #444;
-                background: #000000;
-            }
-            
-            .manager-select:focus {
-                outline: none;
-                border-color: #00bf63;
-            }
-            
-            .bidding-section {
-                flex-direction: column;
-                gap: 10px;
+                background: transparent;
             }
 
             #bidAmount {
                 width: 100%;
-                margin: 0;
-                padding: 12px 15px;
+                margin-bottom: 10px;
+                padding: 12px;
                 font-size: 16px;
             }
 
@@ -413,9 +424,11 @@
                 <div class="auction-main">
                     <div id="currentPlayer"></div>
                     <div class="bidding-section">
-                        <select id="bidderName" class="manager-select">
-                            <option value="">SELECT MANAGER</option>
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="bidderName" class="manager-select">
+                                <option value="">SELECT MANAGER</option>
+                            </select>
+                        </div>
                         <input type="number" id="bidAmount" placeholder="Enter bid amount">
                         <button onclick="placeBid()" class="submit-btn">Place Bid</button>
                         <button onclick="markAsSold()" id="soldButton" class="sold-btn" style="display: none;">SOLD</button>
