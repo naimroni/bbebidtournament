@@ -1248,3 +1248,36 @@ select,
         margin-bottom: 10px;
     }
 }
+
+/* Essential mobile select fixes */
+* {
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+select,
+.manager-select,
+#bidderName {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #000000 !important;
+    border: 1px solid #444 !important;
+    outline: none !important;
+}
+
+select:focus,
+.manager-select:focus,
+#bidderName:focus {
+    border-color: #00bf63 !important;
+    box-shadow: none !important;
+}
+
+@media screen and (max-width: 768px) {
+    select,
+    .manager-select,
+    #bidderName {
+        font-size: 16px !important;
+        padding: 12px !important;
+        width: 100% !important;
+        touch-action: manipulation !important;
+    }
+}
