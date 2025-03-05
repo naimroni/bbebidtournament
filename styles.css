@@ -1192,3 +1192,59 @@ select#category {
     color: #000000;
     font-size: 1em;
 }
+
+/* Fix for mobile select blinking */
+select,
+.manager-select,
+#bidderName {
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+    select,
+    .manager-select,
+    #bidderName {
+        font-size: 16px;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+}
+
+/* Mobile styles for select elements */
+@media screen and (max-width: 768px) {
+    select,
+    .manager-select,
+    #bidderName {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #000000;
+        color: #ffffff;
+        border: 1px solid #444;
+        padding: 12px;
+        width: 100%;
+        font-size: 16px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+
+    select:focus,
+    .manager-select:focus,
+    #bidderName:focus {
+        outline: none;
+        border-color: #00bf63;
+        box-shadow: none;
+    }
+
+    .bidding-section {
+        flex-direction: column;
+    }
+
+    .bidding-section > * {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

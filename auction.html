@@ -29,10 +29,19 @@
             color: #ffffff;
             border: 1px solid #444;
             transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .manager-select:hover {
             border-color: #666;
+        }
+
+        .manager-select:focus {
+            border-color: #00bf63;
+            outline: none;
         }
 
         #bidAmount {
@@ -294,17 +303,27 @@
                 align-items: stretch;
             }
 
-            .manager-select, #bidAmount {
+            .manager-select {
                 width: 100%;
                 margin-right: 0;
+                margin-bottom: 10px;
+                font-size: 16px;
+                -webkit-appearance: none;
+                appearance: none;
+                background-color: #000000;
+                border: 1px solid #444;
+                padding: 12px;
+            }
+            
+            #bidAmount {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+                font-size: 16px;
             }
 
-            .bidding-section .submit-btn,
-            .sold-btn,
-            .unsold-btn {
+            .bidding-section .submit-btn {
                 width: 100%;
-                margin-left: 0;
-                padding: 12px;
             }
 
             .auction-controls {
