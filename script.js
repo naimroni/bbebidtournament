@@ -162,34 +162,34 @@ function startAuction() {
     currentPlayerIndex = -1;
     document.getElementById('nextPlayerBtn').disabled = false;
     document.getElementById('soldButton').style.display = 'none';
-    document.getElementById('unsoldButton').style.display = 'none';
 
     // Get all unsold players and shuffle them
     let unsoldPlayers = players.filter(player => !player.sold);
-    
-    // Double shuffle for more randomness
     unsoldPlayers = shuffleArray(unsoldPlayers);
-    unsoldPlayers = shuffleArray(unsoldPlayers);
-    
-    // Replace the players array with shuffled unsold players first, then sold players
     players = [...unsoldPlayers, ...players.filter(player => player.sold)];
     
+    // Reset timer and show first player
+    if (timer) clearInterval(timer);
+    document.getElementById('timer').textContent = '30';
     showNextPlayer();
 }
 
 // Show next player
 function showNextPlayer() {
+    // Stop any existing timer
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+
     // Get all unsold players
     let unsoldPlayers = players.filter(player => !player.sold);
     
     if (unsoldPlayers.length === 0) {
-        if (timer) {
-            clearInterval(timer);
-        }
         document.getElementById('currentPlayer').innerHTML = '<h2>AUCTION COMPLETED!</h2><h3>Thanks for watching!</h3>';
         document.getElementById('nextPlayerBtn').disabled = true;
         document.getElementById('soldButton').style.display = 'none';
-        document.getElementById('unsoldButton').style.display = 'none';
+        document.getElementById('timer').textContent = '--';
         isAuctionStarted = false;
         return;
     }
@@ -197,18 +197,13 @@ function showNextPlayer() {
     // Randomly select a player from unsold players
     const randomIndex = Math.floor(Math.random() * unsoldPlayers.length);
     const player = unsoldPlayers[randomIndex];
-    
-    // Find this player's index in the main players array
     currentPlayerIndex = players.findIndex(p => p.name === player.name);
     
-    let biddingHistory = [];
+    // Reset bidding state
     currentBid = player.basePrice;
     currentHighestBidder = null;
-    
-    if (timer) {
-        clearInterval(timer);
-    }
 
+    // Update display
     document.getElementById('currentPlayer').innerHTML = `
         <h3>CURRENT PLAYER</h3>
         <p><strong>${player.name}</strong></p>
@@ -216,17 +211,52 @@ function showNextPlayer() {
         <p>Current Bid: ৳<span id="currentBidAmount">${currentBid}</span></p>
         <p>Highest Bidder: <span id="highestBidder">NONE</span></p>
     `;
-
     document.getElementById('biddingHistory').innerHTML = '<h3>BIDDING HISTORY</h3>';
     
-    // Show unsold button before bidding starts
-    document.getElementById('unsoldButton').style.display = 'block';
+    // Only manage sold button
     document.getElementById('soldButton').style.display = 'none';
-    
-    // Clear previous bid amount
     document.getElementById('bidAmount').value = '';
-    
+
+    // Start new timer
+    document.getElementById('timer').textContent = '30';
     startTimer();
+}
+
+// Timer function
+function startTimer() {
+    // Clear any existing timer
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+    
+    let timeLeft = 30;
+    document.getElementById('timer').textContent = timeLeft;
+    
+    timer = setInterval(() => {
+        timeLeft--;
+        
+        if (timeLeft <= 0) {
+            handleTimeUp();
+            return;
+        }
+        
+        document.getElementById('timer').textContent = timeLeft;
+    }, 1000);
+}
+
+// Handle when timer reaches zero
+function handleTimeUp() {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+    
+    document.getElementById('timer').textContent = 'Time Up!';
+    
+    if (currentHighestBidder) {
+        document.getElementById('soldButton').style.display = 'inline-block';
+    }
 }
 
 // Place bid
@@ -240,50 +270,38 @@ function placeBid() {
         return;
     }
 
-    // Calculate minimum bid (current bid + 10)
-    const minimumBid = currentBid + 10;
-
     if (!bidAmount) {
-        // Set default bid amount to minimum bid
+        const minimumBid = currentBid + 10;
         document.getElementById('bidAmount').value = minimumBid;
         return;
     }
 
-    if (bidAmount < minimumBid) {
-        alert(`Bid amount must be at least ৳${minimumBid} (current bid + 10)`);
-        document.getElementById('bidAmount').value = minimumBid;
+    if (bidAmount <= currentBid) {
+        alert('Bid amount must be higher than current bid');
         return;
     }
 
-    if (manager.budget < bidAmount) {
-        alert('Manager does not have enough budget');
+    if (bidAmount > manager.budget) {
+        alert('Bid amount exceeds manager\'s budget');
         return;
     }
 
+    // Update bid state
     currentBid = bidAmount;
     currentHighestBidder = bidderName;
     
     // Update display
-    document.getElementById('currentBidAmount').textContent = bidAmount;
-    document.getElementById('highestBidder').textContent = bidderName;
-    
-    // Show both buttons
-    const soldButton = document.getElementById('soldButton');
-    const unsoldButton = document.getElementById('unsoldButton');
-    soldButton.style.display = 'inline-block';
-    unsoldButton.style.display = 'inline-block';
-
-    // Add to bidding history
-    let biddingHistory = [];
-    biddingHistory.push({
-        manager: bidderName,
-        amount: bidAmount,
-        time: new Date().toLocaleTimeString()
-    });
-    updateBiddingHistory();
-    
-    // Clear bid amount and restart timer
+    document.getElementById('currentBidAmount').textContent = currentBid;
+    document.getElementById('highestBidder').textContent = currentHighestBidder;
+    document.getElementById('soldButton').style.display = 'inline-block';
     document.getElementById('bidAmount').value = '';
+    
+    // Reset timer
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+    document.getElementById('timer').textContent = '30';
     startTimer();
 }
 
@@ -315,43 +333,6 @@ function updateBiddingHistory() {
     });
     
     historyDiv.appendChild(bidsContainer);
-}
-
-// Timer function
-function startTimer() {
-    // Clear existing timer if any
-    if (timer) {
-        clearInterval(timer);
-    }
-    
-    let timeLeft = 30;
-    document.getElementById('timer').textContent = timeLeft;
-    
-    timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer').textContent = timeLeft;
-        
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            handleTimeUp();
-        }
-    }, 1000);
-}
-
-// Handle when timer reaches zero
-function handleTimeUp() {
-    if (timer) {
-        clearInterval(timer);
-    }
-    
-    if (!currentHighestBidder) {
-        // If no bids were made, automatically mark as unsold
-        markAsUnsold();
-    } else {
-        // If there was a highest bidder, show the sold button
-        document.getElementById('soldButton').style.display = 'block';
-        document.getElementById('unsoldButton').style.display = 'none';
-    }
 }
 
 // Finalize current player auction
@@ -742,9 +723,8 @@ function markAsSold() {
     // Save changes
     saveData();
     
-    // Hide both buttons
+    // Hide sold button
     document.getElementById('soldButton').style.display = 'none';
-    document.getElementById('unsoldButton').style.display = 'none';
 
     // Move to next player
     showNextPlayer();
@@ -770,9 +750,8 @@ function markAsUnsold() {
     // Save changes
     saveData();
     
-    // Hide both buttons
+    // Hide sold button
     document.getElementById('soldButton').style.display = 'none';
-    document.getElementById('unsoldButton').style.display = 'none';
     
     // Move to next player
     currentPlayerIndex--; // Decrement because showNextPlayer will increment
