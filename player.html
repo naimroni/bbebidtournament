@@ -64,6 +64,31 @@
             color: #272323;
         }
 
+        .form-group textarea {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #6bf772;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 1em;
+            resize: none;
+        }
+
+        .form-group textarea::placeholder {
+            color: #272323;
+        }
+
+        .form-group select {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #6bf772;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
         .submit-btn {
             background: #55ee55;
             color: #ffffff;
@@ -151,6 +176,11 @@
             color: #000000;
         }
 
+        .navigation a.active {
+            background: #ffffff;
+            color: #000000;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -211,26 +241,29 @@
             <a href="index.html">𝐇𝐎𝐌𝐄</a>
             <a href="manager.html">𝐌𝐀𝐍𝐀𝐆𝐄𝐑 𝐑𝐄𝐆𝐈𝐒𝐓𝐑𝐀𝐓𝐈𝐎𝐍</a>
             <a href="auction.html">𝐒𝐓𝐀𝐑𝐓 𝐀𝐔𝐂𝐓𝐈𝐎𝐍</a>
+            <a href="player.html" class="active">𝐏𝐋𝐀𝐘𝐄𝐑 𝐑𝐄𝐆𝐈𝐒𝐓𝐑𝐀𝐓𝐈𝐎𝐍</a>
         </nav>
 
         <div class="registration-section">
             <h2>ᴘʟᴀʏᴇʀ ʀᴇɢɪꜱᴛʀᴀᴛɪᴏɴ</h2>
             <div class="form-container">
                 <div class="form-group">
-                    <label for="playerName">ᴘʟᴀʏᴇʀ ɴᴀᴍᴇ​:</label>
-                    <input type="text" id="playerName" placeholder="Enter player name" required>
+                    <label for="playerNames">ᴘʟᴀʏᴇʀ ɴᴀᴍᴇꜱ:</label>
+                    <textarea id="playerNames" rows="5" placeholder="Enter player names, one per line"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="basePrice">ʙᴀꜱᴇ ᴘʀɪᴄᴇ:</label>
                     <input type="number" id="basePrice" placeholder="Enter base price" required>
                 </div>
-                <button onclick="addPlayer()" class="submit-btn">Add Player</button>
+                <button onclick="addPlayers()" class="submit-btn">Add Players</button>
             </div>
         </div>
 
         <div class="display-section">
             <h3>ʀᴇɢɪꜱᴛᴇʀᴇᴅ ᴘʟᴀʏᴇʀꜱ</h3>
-            <div id="playersList" class="players-list"></div>
+            <div id="playersList" class="players-list">
+                <!-- Players will be displayed here -->
+            </div>
         </div>
     </div>
 
@@ -243,64 +276,53 @@
             updatePlayersList();
         });
 
-        // Add event listeners for form submission
-        document.getElementById('playerName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('basePrice').focus();
-            }
-        });
+        // Function to add new players
+        function addPlayers() {
+            const playerNamesInput = document.getElementById('playerNames');
+            const basePriceInput = document.getElementById('basePrice');
 
-        document.getElementById('basePrice').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addPlayer();
-            }
-        });
+            const playerNames = playerNamesInput.value.trim().split('\n').filter(name => name !== '');
+            const basePrice = basePriceInput.value;
 
-        // Function to add a new player
-        function addPlayer() {
-            const nameInput = document.getElementById('playerName');
-            const priceInput = document.getElementById('basePrice');
-            
-            const name = nameInput.value.trim();
-            const basePrice = priceInput.value;
-            
-            if (!name || !basePrice) {
+            if (!playerNames.length || !basePrice) {
                 alert('Please fill in all fields');
                 return;
             }
-            
-            const player = {
-                name: name,
-                basePrice: parseInt(basePrice),
-                soldTo: null,
-                soldAmount: 0
-            };
-            
-            // Add new player to array
-            players.push(player);
-            
+
+            playerNames.forEach(name => {
+                const player = {
+                    name: name,
+                    basePrice: parseInt(basePrice),
+                    soldTo: null,
+                    soldAmount: 0
+                };
+
+                // Add new player to array
+                players.push(player);
+            });
+
             // Save to localStorage
             localStorage.setItem('players', JSON.stringify(players));
-            
+
             // Update display
             updatePlayersList();
-            
+
             // Clear form
-            nameInput.value = '';
-            priceInput.value = '';
-            nameInput.focus();
+            playerNamesInput.value = '';
+            basePriceInput.value = '';
+            playerNamesInput.focus();
         }
 
         // Function to update players list display
         function updatePlayersList() {
             const playersList = document.getElementById('playersList');
             playersList.innerHTML = '';
-            
+
             if (players.length === 0) {
                 playersList.innerHTML = '<p class="no-data">No players registered yet</p>';
                 return;
             }
-            
+
             players.forEach((player, index) => {
                 const div = document.createElement('div');
                 div.className = 'player-item';

@@ -270,21 +270,18 @@
             background: #444;
         }
 
-        @media (max-width: 1024px) {
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
             .dashboard-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-
-            .registered-section {
-                grid-column: span 2;
+                gap: 15px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
             .container {
                 margin: 10px;
-                padding: 15px;
+                padding: 10px;
             }
 
             .dashboard-grid {
@@ -292,34 +289,17 @@
                 gap: 15px;
             }
 
-            .registered-section {
-                grid-column: span 1;
-            }
-
-            .navigation {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .navigation a {
-                margin: 0;
-                text-align: center;
-            }
-
             .bidding-section {
                 flex-direction: column;
                 align-items: stretch;
             }
 
-            .manager-select,
-            #bidAmount {
+            .manager-select, #bidAmount {
                 width: 100%;
                 margin-right: 0;
-                margin-bottom: 10px;
             }
 
-            .submit-btn,
+            .bidding-section .submit-btn,
             .sold-btn,
             .unsold-btn {
                 width: 100%;
@@ -329,25 +309,34 @@
 
             .auction-controls {
                 flex-direction: column;
-                gap: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h2 {
-                font-size: 1.5em;
-            }
-
-            h3 {
-                font-size: 1.3em;
             }
 
             .timer {
                 font-size: 24px;
             }
 
-            .player-info,
-            .manager-info {
+            .navigation {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navigation a {
+                text-align: center;
+                padding: 12px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .timer {
+                font-size: 20px;
+            }
+
+            h2, h3 {
+                font-size: 1.5em;
+            }
+
+            .player-info, .manager-info {
                 padding: 12px;
             }
         }

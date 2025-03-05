@@ -422,6 +422,38 @@ function addPlayer() {
     nameInput.focus();
 }
 
+// Add multiple players
+function addPlayers() {
+    const namesTextArea = document.getElementById('playerNames');
+    const basePrice = document.getElementById('basePrice');
+    
+    const names = namesTextArea.value.trim().split('\n').filter(name => name.trim() !== '');
+    
+    if (names.length === 0 || !basePrice.value) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    names.forEach(name => {
+        const player = {
+            name: name.trim(),
+            basePrice: parseInt(basePrice.value),
+            soldTo: null,
+            soldAmount: 0
+        };
+        
+        players.push(player);
+    });
+    
+    saveData();
+    updatePlayersList();
+    
+    // Clear form
+    namesTextArea.value = '';
+    basePrice.value = '';
+    namesTextArea.focus();
+}
+
 // Remove player
 function removePlayer(index) {
     players.splice(index, 1);
