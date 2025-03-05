@@ -7,14 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        * {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        select:focus {
-            outline: none !important;
-        }
-
         body {
             margin: 0;
             padding: 0;
@@ -27,64 +19,20 @@
             padding: 20px;
         }
 
-        .bidding-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        .select-wrapper {
-            position: relative;
-            width: 180px;
-            background: #000000;
-            border-radius: 6px;
-            border: 1px solid #444;
-        }
-
         .manager-select {
-            width: 100%;
             padding: 8px 15px;
             font-size: 0.9em;
+            width: 180px;
+            border-radius: 6px;
+            margin-right: 10px;
+            background: #000000;
             color: #ffffff;
-            background: transparent;
-            border: none;
-            -webkit-appearance: none;
-            appearance: none;
-            cursor: pointer;
-            outline: none;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
         }
 
-        .select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 5px solid #ffffff;
-            pointer-events: none;
-        }
-
-        .select-wrapper:hover {
+        .manager-select:hover {
             border-color: #666;
-        }
-
-        .select-wrapper:active,
-        .select-wrapper:focus-within {
-            border-color: #00bf63;
         }
 
         #bidAmount {
@@ -119,6 +67,18 @@
         .bidding-section .submit-btn:hover {
             background: linear-gradient(145deg, #00d670, #00bf63);
             transform: translateY(-2px);
+        }
+
+        .bidding-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .sold-btn, .unsold-btn {
@@ -332,31 +292,19 @@
             .bidding-section {
                 flex-direction: column;
                 align-items: stretch;
+            }
+
+            .manager-select, #bidAmount {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .bidding-section .submit-btn,
+            .sold-btn,
+            .unsold-btn {
+                width: 100%;
+                margin-left: 0;
                 padding: 12px;
-            }
-
-            .select-wrapper {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .manager-select {
-                width: 100%;
-                padding: 12px 15px;
-                font-size: 16px;
-                background: transparent;
-            }
-
-            #bidAmount {
-                width: 100%;
-                margin-bottom: 10px;
-                padding: 12px;
-                font-size: 16px;
-            }
-
-            .bidding-section .submit-btn {
-                width: 100%;
-                margin: 0;
             }
 
             .auction-controls {
@@ -424,11 +372,9 @@
                 <div class="auction-main">
                     <div id="currentPlayer"></div>
                     <div class="bidding-section">
-                        <div class="select-wrapper">
-                            <select id="bidderName" class="manager-select">
-                                <option value="">SELECT MANAGER</option>
-                            </select>
-                        </div>
+                        <select id="bidderName" class="manager-select">
+                            <option value="">SELECT MANAGER</option>
+                        </select>
                         <input type="number" id="bidAmount" placeholder="Enter bid amount">
                         <button onclick="placeBid()" class="submit-btn">Place Bid</button>
                         <button onclick="markAsSold()" id="soldButton" class="sold-btn" style="display: none;">SOLD</button>
