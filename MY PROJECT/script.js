@@ -5,7 +5,6 @@ let currentPlayerIndex = -1;
 let currentBid = 0;
 let currentHighestBidder = null;
 let timer;
-let biddingHistory = [];
 let isAuctionStarted = false;
 
 // Load data from localStorage
@@ -142,6 +141,15 @@ function removeManager(index) {
     updateManagersList();
 }
 
+// Shuffle array function
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 // Start auction
 function startAuction() {
     if (players.length === 0 || managers.length === 0) {
@@ -149,20 +157,32 @@ function startAuction() {
         return;
     }
 
+    // Reset auction state
     isAuctionStarted = true;
     currentPlayerIndex = -1;
     document.getElementById('nextPlayerBtn').disabled = false;
     document.getElementById('soldButton').style.display = 'none';
     document.getElementById('unsoldButton').style.display = 'none';
+
+    // Get all unsold players and shuffle them
+    let unsoldPlayers = players.filter(player => !player.sold);
+    
+    // Double shuffle for more randomness
+    unsoldPlayers = shuffleArray(unsoldPlayers);
+    unsoldPlayers = shuffleArray(unsoldPlayers);
+    
+    // Replace the players array with shuffled unsold players first, then sold players
+    players = [...unsoldPlayers, ...players.filter(player => player.sold)];
+    
     showNextPlayer();
 }
 
 // Show next player
 function showNextPlayer() {
-    currentPlayerIndex++;
-    biddingHistory = [];
+    // Get all unsold players
+    let unsoldPlayers = players.filter(player => !player.sold);
     
-    if (currentPlayerIndex >= players.length) {
+    if (unsoldPlayers.length === 0) {
         if (timer) {
             clearInterval(timer);
         }
@@ -174,7 +194,14 @@ function showNextPlayer() {
         return;
     }
     
-    const player = players[currentPlayerIndex];
+    // Randomly select a player from unsold players
+    const randomIndex = Math.floor(Math.random() * unsoldPlayers.length);
+    const player = unsoldPlayers[randomIndex];
+    
+    // Find this player's index in the main players array
+    currentPlayerIndex = players.findIndex(p => p.name === player.name);
+    
+    let biddingHistory = [];
     currentBid = player.basePrice;
     currentHighestBidder = null;
     
@@ -247,6 +274,7 @@ function placeBid() {
     unsoldButton.style.display = 'inline-block';
 
     // Add to bidding history
+    let biddingHistory = [];
     biddingHistory.push({
         manager: bidderName,
         amount: bidAmount,
@@ -267,6 +295,7 @@ function updateBiddingHistory() {
     // Keep the heading
     historyDiv.innerHTML = '<h3>BIDDING HISTORY</h3>';
     
+    let biddingHistory = [];
     if (biddingHistory.length === 0) {
         historyDiv.innerHTML += '<p class="no-data">No bids yet</p>';
         return;
@@ -391,6 +420,38 @@ function addPlayer() {
     nameInput.value = '';
     priceInput.value = '';
     nameInput.focus();
+}
+
+// Add multiple players
+function addPlayers() {
+    const namesTextArea = document.getElementById('playerNames');
+    const basePrice = document.getElementById('basePrice');
+    
+    const names = namesTextArea.value.trim().split('\n').filter(name => name.trim() !== '');
+    
+    if (names.length === 0 || !basePrice.value) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    names.forEach(name => {
+        const player = {
+            name: name.trim(),
+            basePrice: parseInt(basePrice.value),
+            soldTo: null,
+            soldAmount: 0
+        };
+        
+        players.push(player);
+    });
+    
+    saveData();
+    updatePlayersList();
+    
+    // Clear form
+    namesTextArea.value = '';
+    basePrice.value = '';
+    namesTextArea.focus();
 }
 
 // Remove player
@@ -562,7 +623,6 @@ function downloadPurchaseReport() {
                         // Draw header in new page
                         doc.setFillColor(46, 139, 87); // Sea green header
                         doc.rect(20, y, 170, 10, 'F');
-                        doc.setFont(undefined, 'bold');
                         doc.setTextColor(255, 255, 255); // White text
                         doc.text('Manager Name', 25, y + 7);
                         doc.text('Player Name', 95, y + 7);

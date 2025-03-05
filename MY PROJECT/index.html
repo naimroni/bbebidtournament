@@ -6,9 +6,15 @@
     <title>Player Auction System</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .welcome-section {
-            background: #1a1a1a;
-            padding: 40px;
+            background: #000000;
+            padding: 40px 20px;
             border-radius: 10px;
             text-align: center;
             margin: 20px 0;
@@ -54,10 +60,21 @@
         }
 
         .feature-card h3 {
-            color: #007bff;
             margin-bottom: 15px;
             font-size: 1.4em;
             text-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .feature-card.players h3 {
+            color: #6ef195;
+        }
+
+        .feature-card.managers h3 {
+            color: #40c9ff;
+        }
+
+        .feature-card.auction h3 {
+            color: #f86ca7;
         }
 
         .feature-card p {
@@ -93,30 +110,30 @@
         }
 
         .btn-players {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #6ef195,  #1ed81e);
         }
 
         .btn-players:hover {
-            background: linear-gradient(135deg, #45a049, #388e3c);
+            background: linear-gradient(135deg, #6ef195, #1ed81e);
         }
 
         .btn-managers {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
+            background: linear-gradient(135deg, #40c9ff, #e81cff);
             color: #000000;
             font-weight: bold;
         }
 
         .btn-managers:hover {
-            background: linear-gradient(135deg, #1976D2, #1565C0);
-            color: #000000;
+            background: linear-gradient(135deg, #40c9ff, #e81cff);
+            color: #ffffff;
         }
 
         .btn-auction {
-            background: linear-gradient(135deg, #ff9800, #f57c00);
+            background: linear-gradient(135deg, #f86ca7, #f4d444);
         }
 
         .btn-auction:hover {
-            background: linear-gradient(135deg, #f57c00, #ef6c00);
+            background: linear-gradient(135deg, #f86ca7, #f4d444);
         }
 
         /* Dark theme specific navigation */
@@ -142,20 +159,69 @@
             background: #2d2d2d;
             color: #007bff;
         }
+
+        @media (max-width: 768px) {
+            .welcome-section {
+                padding: 30px 15px;
+            }
+
+            .welcome-section h1 {
+                font-size: 2em;
+            }
+
+            .welcome-section p {
+                font-size: 1em;
+                padding: 0 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-button {
+                width: 100%;
+                max-width: 300px;
+                margin: 5px 0;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 0 10px;
+            }
+
+            .feature-card {
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-section h1 {
+                font-size: 1.6em;
+            }
+
+            .action-button {
+                font-size: 1em;
+                padding: 12px 20px;
+            }
+
+            .feature-card h3 {
+                font-size: 1.2em;
+            }
+
+            .feature-card p {
+                font-size: 0.9em;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <nav class="navigation">
-            <a href="player.html">Player Registration</a>
-            <a href="manager.html">Manager Registration</a>
-            <a href="auction.html">Start Auction</a>
-        </nav>
-
         <div class="welcome-section">
-            <h1>WELCOME TO PLAYER AUCTION SYSTEM</h1>
-            <p>A modern platform for managing player auctions with real-time bidding and comprehensive tracking.</p>
+            <h1>ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ʙʙᴇ ᴘʟᴀʏᴇʀ ᴀᴜᴄᴛɪᴏɴ</h1>
+            <p>ᴀ ᴍᴏᴅᴇʀɴ ᴘʟᴀᴛꜰᴏʀᴍ ꜰᴏʀ ᴍᴀɴᴀɢɪɴɢ ᴘʟᴀʏᴇʀ ᴀᴜᴄᴛɪᴏɴꜱ ᴡɪᴛʜ ʀᴇᴀʟ-ᴛɪᴍᴇ ʙɪᴅᴅɪɴɢ ᴀɴᴅ ᴄᴏᴍᴘʀᴇʜᴇɴꜱɪᴠᴇ ᴛʀᴀᴄᴋɪɴɢ.
+            </p>
             
             <div class="action-buttons">
                 <a href="player.html" class="action-button btn-players">Register Players</a>
@@ -165,21 +231,21 @@
         </div>
 
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card players">
                 <h3>PLAYER REGISTRATION</h3>
-                <p>Easily register players with their details and base prices for the auction.</p>
+                <p>ᴇᴀꜱɪʟʏ ʀᴇɢɪꜱᴛᴇʀ ᴘʟᴀʏᴇʀꜱ ᴡɪᴛʜ ᴛʜᴇɪʀ ᴅᴇᴛᴀɪʟꜱ ᴀɴᴅ ʙᴀꜱᴇ ᴘʀɪᴄᴇꜱ ꜰᴏʀ ᴛʜᴇ ᴀᴜᴄᴛɪᴏɴ.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card managers">
                 <h3>MANAGER REGISTRATION</h3>
-                <p>Register team managers with their budgets and track their purchases.</p>
+                <p>ʀᴇɢɪꜱᴛᴇʀ ᴛᴇᴀᴍ ᴍᴀɴᴀɢᴇʀꜱ ᴡɪᴛʜ ᴛʜᴇɪʀ ʙᴜᴅɢᴇᴛꜱ ᴀɴᴅ ᴛʀᴀᴄᴋ ᴛʜᴇɪʀ ᴘᴜʀᴄʜᴀꜱᴇꜱ.</p>
             </div>
-            <div class="feature-card">
-                <h3>LIVE AUCTION</h3>
-                <p>Conduct real-time auctions with automatic timer and bidding history.</p>
+            <div class="feature-card auction">
+                <h3>AUCTION DASHBOARD</h3>
+                <p>ᴄᴏɴᴅᴜᴄᴛ ʀᴇᴀʟ-ᴛɪᴍᴇ ᴀᴜᴄᴛɪᴏɴꜱ ᴡɪᴛʜ ᴀᴜᴛᴏᴍᴀᴛɪᴄ ᴛɪᴍᴇʀ ᴀɴᴅ ʙɪᴅᴅɪɴɢ ʜɪꜱᴛᴏʀʏ.</p>
             </div>
             <div class="feature-card">
                 <h3>RESULTS TRACKING</h3>
-                <p>Keep track of all transactions and final player assignments.</p>
+                <p>ᴋᴇᴇᴘ ᴛʀᴀᴄᴋ ᴏꜰ ᴀʟʟ ᴛʀᴀɴꜱᴀᴄᴛɪᴏɴꜱ ᴀɴᴅ ꜰɪɴᴀʟ ᴘʟᴀʏᴇʀ ᴀꜱꜱɪɢɴᴍᴇɴᴛꜱ.</p>
             </div>
         </div>
     </div>

@@ -6,13 +6,42 @@
     <title>Manager Registration - Auction System</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+        
         .container {
             max-width: 800px;
-            margin: 40px auto;
+            margin: 20px auto;
             padding: 20px;
-            background: white;
+            background: #000000;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px #ffffff;
+        }
+
+        .navigation {
+            background: #000000;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #1cb9e9;
+        }
+
+        .navigation a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin-right: 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .navigation a:hover {
+            background: #1a1a1a;
+            color: #2196F3;
         }
 
         .registration-section {
@@ -21,8 +50,12 @@
             color: #1e3c72;
         }
 
+        .registration-section h2 {
+            color: #2196F3;
+        }
+
         .form-container {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -54,25 +87,29 @@
         }
 
         .submit-btn {
-            background-color: #4CAF50;
+            background-color: #e81ce8;
             color: #000000;
             padding: 12px 24px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            background: #2196F3;
-            color: #000000;
+            background: #2278fb;
+            color: #ffffff;
             font-weight: bold;
         }
 
         .submit-btn:hover {
-            background: #1976D2;
+            background: #40c9ff;
             color: #000000;
         }
 
-        .managers-list {
+        .display-section {
             margin-top: 30px;
+        }
+
+        .display-section h3 {
+            color: #2196F3;
         }
 
         .manager-item {
@@ -85,7 +122,7 @@
             justify-content: space-between;
             align-items: center;
             background: #1a1a1a;
-            border: 1px solid #333333;
+            border: 1px solid #ffffff;
         }
 
         .manager-info p {
@@ -109,25 +146,83 @@
         .no-data {
             color: #b3b3b3;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .navigation {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .navigation a {
+                margin: 0;
+                display: block;
+            }
+
+            .form-group input {
+                font-size: 16px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .manager-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .manager-info {
+                margin-right: 0;
+            }
+
+            .remove-btn {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .registration-section h2,
+            .display-section h3 {
+                font-size: 1.5em;
+            }
+
+            .form-container {
+                padding: 15px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <nav class="navigation">
-            <a href="index.html">Home</a>
-            <a href="player.html">Player Registration</a>
-            <a href="auction.html">Start Auction</a>
+            <a href="index.html">𝐇𝐎𝐌𝐄</a>
+            <a href="player.html">𝐏𝐋𝐀𝐘𝐄𝐑 𝐑𝐄𝐆𝐈𝐒𝐓𝐑𝐀𝐓𝐈𝐎𝐍</a>
+            <a href="auction.html">𝐒𝐓𝐀𝐑𝐓 𝐀𝐔𝐂𝐓𝐈𝐎𝐍</a>
         </nav>
 
         <div class="registration-section">
-            <h2>MANAGER REGISTRATION</h2>
+            <h2>ᴍᴀɴᴀɢᴇʀ ʀᴇɢɪꜱᴛʀᴀᴛɪᴏɴ</h2>
             <div class="form-container">
                 <div class="form-group">
-                    <label for="managerName">Manager Name:</label>
+                 <label for="managerName">ᴍᴀɴᴀɢᴇʀ ɴᴀᴍᴇ:​​</label>
                     <input type="text" id="managerName" placeholder="Enter manager name" required>
                 </div>
                 <div class="form-group">
-                    <label for="budget">Budget (৳):</label>
+                    <label for="budget">ᴛᴏᴛᴀʟ ʙᴜᴅɢᴇᴛ​:</label>
                     <input type="number" id="budget" placeholder="Enter budget amount" required>
                 </div>
                 <button onclick="addManager()" class="submit-btn">Add Manager</button>
@@ -135,7 +230,7 @@
         </div>
 
         <div class="display-section">
-            <h3>REGISTERED MANAGERS</h3>
+            <h3>ʀᴇɢɪꜱᴛᴇʀᴇᴅ ᴍᴀɴᴀɢᴇʀ</h3>
             <div id="managersList" class="managers-list"></div>
         </div>
     </div>
